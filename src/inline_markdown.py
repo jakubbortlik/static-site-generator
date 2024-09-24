@@ -71,3 +71,13 @@ def split_nodes_by_element(old_nodes, regex_, text_type) -> list[TextNode]:
                 continue
             result.append(TextNode(alt_text, text_type, url))
     return result
+
+
+def text_to_textnodes(text) -> list[TextNode]:
+    result = [TextNode(text, TextType.TEXT)]
+    result = split_nodes_image(result)
+    result = split_nodes_link(result)
+    result = split_nodes_delimiter(result, "**", TextType.BOLD)
+    result = split_nodes_delimiter(result, "*", TextType.ITALIC)
+    result = split_nodes_delimiter(result, "`", TextType.CODE)
+    return result

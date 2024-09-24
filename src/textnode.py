@@ -1,6 +1,6 @@
-from htmlnode import LeafNode
-
 import enum
+
+from htmlnode import LeafNode
 
 
 class TextType(enum.StrEnum):
