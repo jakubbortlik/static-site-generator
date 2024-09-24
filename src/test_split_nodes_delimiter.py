@@ -143,3 +143,7 @@ class TestSplitNodesDelimiter(unittest.TestCase):
                 TextType.ITALIC,
             ),
         )
+
+
+if __name__ == "__main__":
+    unittest.main()
