@@ -3,7 +3,7 @@ import unittest
 from inline_markdown import extract_markdown_images, extract_markdown_links
 
 
-class TextExtractMarkdownElements(unittest.TestCase):
+class TestExtractMarkdownElements(unittest.TestCase):
     def test_two_images(self):
         text = "This is text with a ![rick roll](https://i.imgur.com/aKaOqIh.gif) and ![obi wan](https://i.imgur.com/fJRm4Vk.jpeg)"
         self.assertEqual(
