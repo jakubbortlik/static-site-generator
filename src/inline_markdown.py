@@ -32,14 +32,6 @@ def split_nodes_delimiter(
     return result
 
 
-def extract_markdown_images(text) -> list[tuple[str, ...]]:
-    return images_regex.findall(text)
-
-
-def extract_markdown_links(text) -> list[tuple[str, ...]]:
-    return links_regex.findall(text)
-
-
 def split_nodes_link(old_nodes) -> list[TextNode]:
     return split_nodes_by_element(old_nodes, links_regex, TextType.LINK)
 
