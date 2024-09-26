@@ -31,7 +31,7 @@ class HTMLNode:
         return ""
 
     def __repr__(self):
-        return f'HTMLNode(tag="{self.tag}", value="{self.value}", children={self.children}, props={self.props})'
+        return f'{self.__class__.__name__}(tag="{self.tag}", value="{self.value}", children={self.children}, props={self.props})'
 
 
 class LeafNode(HTMLNode):
