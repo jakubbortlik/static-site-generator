@@ -61,19 +61,19 @@ def markdown_to_html_quote(markdown):
     lines_grouped_by_prefix = []
     old_prefix = None
     for line in lines:
-        prefix = "QUOTE" if (len(line) > 0 and line[0] == ">") else "NO_QUOTE"
+        prefix = "QUOTE" if line.startswith(">") else "NO_QUOTE"
         if not prefix == old_prefix:
-            lines_grouped_by_prefix.append([line])
+            lines_grouped_by_prefix.append(line)
             old_prefix = prefix
         else:
-            lines_grouped_by_prefix[-1].append(line)
+            lines_grouped_by_prefix[-1] += "\n" + line
 
     children = []
     for line_group in lines_grouped_by_prefix:
-        if line_group[0].startswith(">"):
-            children.append(markdown_to_html_quote("\n".join(line_group)))
+        if line_group.startswith(">"):
+            children.append(markdown_to_html_quote(line_group))
         else:
-            for block in markdown_to_blocks("\n".join(line_group)):
+            for block in markdown_to_blocks(line_group):
                 children.append(
                     ParentNode(
                         tag="p", value=None, children=markdown_to_html_nodes(block)
