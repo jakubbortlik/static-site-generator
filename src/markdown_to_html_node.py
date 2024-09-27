@@ -78,13 +78,13 @@ def markdown_to_html_quote(markdown) -> ParentNode:
             for block in markdown_to_blocks(line_group):
                 children.append(
                     ParentNode(
-                        tag="p", value=None, children=markdown_to_html_nodes(block)
+                        tag="p", value=None, children=markdown_to_html_children(block)
                     )
                 )
     return ParentNode(tag="blockquote", value=None, children=children)
 
 
-def markdown_to_html_nodes(markdown) -> list[HTMLNode]:
+def markdown_to_html_children(markdown) -> list[HTMLNode]:
     blocks = markdown_to_blocks(markdown)
     children: list[HTMLNode] = []
     for block in blocks:
@@ -107,6 +107,6 @@ def markdown_to_html_nodes(markdown) -> list[HTMLNode]:
 
 
 def markdown_to_html_node(markdown) -> HTMLNode:
-    children = markdown_to_html_nodes(markdown)
+    children = markdown_to_html_children(markdown)
     result = ParentNode(tag="div", value=None, children=children, props=None)
     return result
