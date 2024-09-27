@@ -31,7 +31,16 @@ class HTMLNode:
         return ""
 
     def __repr__(self):
-        return f'{self.__class__.__name__}(tag="{self.tag}", value="{self.value}", children={self.children}, props={self.props})'
+        args = []
+        if self.tag is not None:
+            args.append(f'tag="{self.tag}"')
+        if self.value is not None:
+            args.append(f'value="{self.value}"')
+        if self.children is not None:
+            args.append(f"children={self.children}")
+        if self.props is not None:
+            args.append(f'props={self.props}')
+        return f"{self.__class__.__name__}({', '.join(args)})"
 
     def __eq__(self, other):
         return (
