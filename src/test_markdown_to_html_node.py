@@ -10,12 +10,21 @@ class TestMarkdownToHTMLNode(unittest.TestCase):
 
     def test_simple_paragraph(self):
         markdown = "This is a simple paragraph"
+        actul_value = markdown_to_html_node(markdown)
         self.assertEqual(
-            markdown_to_html_node(markdown),
+            actul_value,
             ParentNode(
                 tag="div",
                 value=None,
-                children=[LeafNode(tag=None, value="This is a simple paragraph")],
+                children=[
+                    ParentNode(
+                        tag="p",
+                        value=None,
+                        children=[
+                            LeafNode(tag=None, value="This is a simple paragraph")
+                        ],
+                    ),
+                ],
                 props=None,
             ),
         )
@@ -28,9 +37,17 @@ class TestMarkdownToHTMLNode(unittest.TestCase):
                 tag="div",
                 value=None,
                 children=[
-                    LeafNode(tag=None, value="This is a simple paragraph with "),
-                    LeafNode(tag="b", value="bold text"),
-                    LeafNode(tag=None, value="."),
+                    ParentNode(
+                        tag="p",
+                        value=None,
+                        children=[
+                            LeafNode(
+                                tag=None, value="This is a simple paragraph with "
+                            ),
+                            LeafNode(tag="b", value="bold text"),
+                            LeafNode(tag=None, value="."),
+                        ],
+                    )
                 ],
                 props=None,
             ),
@@ -64,8 +81,15 @@ class TestMarkdownToHTMLNode(unittest.TestCase):
                 tag="div",
                 value=None,
                 children=[
-                    LeafNode(
-                        tag=None, value="####### This is NOT a seventh-level heading"
+                    ParentNode(
+                        tag="p",
+                        value=None,
+                        children=[
+                            LeafNode(
+                                tag=None,
+                                value="####### This is NOT a seventh-level heading",
+                            )
+                        ],
                     )
                 ],
                 props=None,
@@ -178,15 +202,9 @@ for i in range(10):
                             tag="p",
                             value=None,
                             children=[
-                                LeafNode(
-                                    tag=None, value="first line is a "
-                                ),
-                                LeafNode(
-                                    tag="i", value="kind"
-                                ),
-                                LeafNode(
-                                    tag=None, value=" of heading"
-                                ),
+                                LeafNode(tag=None, value="first line is a "),
+                                LeafNode(tag="i", value="kind"),
+                                LeafNode(tag=None, value=" of heading"),
                             ],
                         ),
                         ParentNode(
@@ -195,7 +213,7 @@ for i in range(10):
                             children=[
                                 LeafNode(
                                     tag=None,
-                                    value="second line is a separate paragraph\nspread over two lines",
+                                    value="second line is a separate paragraph spread over two lines",
                                 )
                             ],
                         ),

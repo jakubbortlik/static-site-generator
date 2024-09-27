@@ -12,11 +12,16 @@ quote_prefix_regex = re.compile("^> *")
 
 
 def text_to_children(text) -> list[HTMLNode]:
+    text = text.replace("\n", " ")
     result: list[HTMLNode] = []
     text_nodes = text_to_textnodes(text)
     for text_node in text_nodes:
         result.append(text_node_to_html_node(text_node))
     return result
+
+
+def markdown_to_html_paragraph(markdown):
+    return ParentNode(tag="p", value=None, children=text_to_children(markdown))
 
 
 def markdown_to_html_heading(markdown):
@@ -69,18 +74,14 @@ def lines_grouped_by_prefix(markdown) -> list[str]:
     return result
 
 
-def markdown_to_html_quote(markdown) -> ParentNode:
+def markdown_to_html_quote(markdown) -> HTMLNode:
     children = []
     for line_group in lines_grouped_by_prefix(markdown):
         if line_group.startswith(">"):
             children.append(markdown_to_html_quote(line_group))
         else:
             for block in markdown_to_blocks(line_group):
-                children.append(
-                    ParentNode(
-                        tag="p", value=None, children=markdown_to_html_children(block)
-                    )
-                )
+                children.extend(markdown_to_html_children(block))
     return ParentNode(tag="blockquote", value=None, children=children)
 
 
@@ -91,7 +92,7 @@ def markdown_to_html_children(markdown) -> list[HTMLNode]:
         block_type = block_to_block_type(block)
 
         if block_type == BlockType.PARAGRAPH:
-            children.extend(text_to_children(block))
+            children.append(markdown_to_html_paragraph(block))
         elif block_type == BlockType.HEADING:
             children.append(markdown_to_html_heading(block))
         elif block_type == BlockType.CODE:
