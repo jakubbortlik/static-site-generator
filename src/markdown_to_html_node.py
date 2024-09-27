@@ -56,20 +56,22 @@ def markdown_to_html_ordered_list(markdown):
     )
 
 
-def markdown_to_html_quote(markdown):
-    lines = [quote_prefix_regex.sub("", line) for line in markdown.split("\n")]
-    lines_grouped_by_prefix = []
-    old_prefix = None
-    for line in lines:
-        prefix = "QUOTE" if line.startswith(">") else "NO_QUOTE"
-        if not prefix == old_prefix:
-            lines_grouped_by_prefix.append(line)
-            old_prefix = prefix
+def lines_grouped_by_prefix(markdown) -> list[str]:
+    result = []
+    old_line_type = None
+    for line in (quote_prefix_regex.sub("", line) for line in markdown.split("\n")):
+        line_type = "QUOTE" if line.startswith(">") else "NO_QUOTE"
+        if not line_type == old_line_type:
+            result.append(line)
+            old_line_type = line_type
         else:
-            lines_grouped_by_prefix[-1] += "\n" + line
+            result[-1] += "\n" + line
+    return result
 
+
+def markdown_to_html_quote(markdown) -> ParentNode:
     children = []
-    for line_group in lines_grouped_by_prefix:
+    for line_group in lines_grouped_by_prefix(markdown):
         if line_group.startswith(">"):
             children.append(markdown_to_html_quote(line_group))
         else:

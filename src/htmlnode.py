@@ -1,12 +1,14 @@
 from __future__ import annotations
 
+from typing import Sequence
+
 
 class HTMLNode:
     def __init__(
         self,
         tag: str | None = None,
         value: str | None = None,
-        children: list[HTMLNode] | None = None,
+        children: Sequence[HTMLNode] | None = None,
         props: dict[str, str] | None = None,
     ) -> None:
         """Initialize an HTML node.
@@ -70,7 +72,7 @@ class ParentNode(HTMLNode):
         self,
         tag: str | None,
         value: str | None,
-        children: list[HTMLNode],
+        children: Sequence[HTMLNode],
         props: dict[str, str] | None = None,
     ):
         super().__init__(tag, None, children, props)
