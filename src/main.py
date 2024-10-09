@@ -1,7 +1,7 @@
 import os
 import shutil
 
-from generate_page import generate_page
+from generate_page import generate_pages_recursive
 
 
 def copy_directory_content(source, destination, level):
@@ -26,7 +26,9 @@ def copy_directory_content(source, destination, level):
 
 def main():
     copy_directory_content("static", "public", 0)
-    generate_page("content/index.md", "template.html", "public/index.html")
+
+    print("Generating content...")
+    generate_pages_recursive("content", "template.html", "public")
 
 
 if __name__ == "__main__":
