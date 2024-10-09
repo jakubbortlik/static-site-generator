@@ -1,6 +1,8 @@
 import os
 import shutil
 
+from generate_page import generate_page
+
 
 def copy_directory_content(source, destination, level):
     if os.path.exists(destination):
@@ -24,6 +26,7 @@ def copy_directory_content(source, destination, level):
 
 def main():
     copy_directory_content("static", "public", 0)
+    generate_page("content/index.md", "template.html", "public/index.html")
 
 
 if __name__ == "__main__":
