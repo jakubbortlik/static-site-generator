@@ -19,7 +19,6 @@ def generate_page(from_path, template_path, dest_path) -> None:
     with open(template_path)as in_file:
         template = in_file.read()
     html_content = markdown_to_html_node(markdown).to_html()
-    html_content = html_content.replace("<blockquote><p>", "<blockquote>").replace("</p></blockquote>", "</blockquote>")
     title = extract_title(markdown)
     template = template.replace("{{ Title }}", title)
     template = template.replace("{{ Content }}", html_content)
